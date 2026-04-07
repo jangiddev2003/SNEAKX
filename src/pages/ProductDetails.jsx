@@ -26,7 +26,7 @@ const ProductDetails = () => {
       setSelectedImage(0);
       setSelectedSize(null);
       setLoading(false);
-      
+
       // Get related
       getProducts().then(all => {
         setRelatedProducts(all.filter(p => p.category === data.category && p.id !== data.id).slice(0, 4));
@@ -52,7 +52,7 @@ const ProductDetails = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 dark:text-white animate-in fade-in duration-500">
-      
+
       {/* Breadcrumbs */}
       <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-8 font-medium">
         <Link to="/" className="hover:text-black dark:hover:text-white">Home</Link>
@@ -63,15 +63,15 @@ const ProductDetails = () => {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
-        
+
         {/* Left: Image Gallery & Customizer */}
         <div className="w-full lg:w-3/5 flex flex-col md:flex-row gap-4">
-          
+
           {/* Thumbnails */}
           <div className="flex md:flex-col gap-4 order-2 md:order-1 overflow-x-auto md:w-24 flex-shrink-0">
             {product.images.map((img, idx) => (
-              <button 
-                key={idx} 
+              <button
+                key={idx}
                 onClick={() => setSelectedImage(idx)}
                 className={`flex-shrink-0 w-20 h-20 md:w-full md:h-24 bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border-2 transition-all ${selectedImage === idx ? 'border-black dark:border-[var(--color-primary)] opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}`}
               >
@@ -82,20 +82,20 @@ const ProductDetails = () => {
 
           {/* Main Image */}
           <div className="order-1 md:order-2 flex-grow bg-gray-100 dark:bg-gray-900 rounded-2xl overflow-hidden relative aspect-[4/3] md:aspect-auto md:min-h-[600px] flex items-center justify-center">
-            
+
             <AnimatePresence mode="wait">
-              <motion.img 
+              <motion.img
                 key={selectedImage}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                src={product.images[selectedImage]} 
+                src={product.images[selectedImage]}
                 alt={product.name}
                 className="w-full h-full object-cover origin-center transition-[filter] duration-200"
               />
             </AnimatePresence>
-            
+
             {product.isDrop && (
               <div className="absolute top-4 right-4 bg-red-500 text-white py-1 px-3 rounded text-xs font-bold uppercase tracking-wider animate-pulse">
                 Exclusive Drop
@@ -106,10 +106,10 @@ const ProductDetails = () => {
 
         {/* Right: Product Info */}
         <div className="w-full lg:w-2/5 flex flex-col">
-          
+
           <h1 className="text-4xl md:text-5xl font-display font-black leading-tight mb-2">{product.name}</h1>
           <p className="text-2xl font-bold text-gray-900 dark:text-[var(--color-primary)] mb-4">${product.price}</p>
-          
+
           <div className="flex items-center gap-4 mb-6">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
@@ -134,11 +134,10 @@ const ProductDetails = () => {
                 <button
                   key={size}
                   onClick={() => setSelectedSize(size)}
-                  className={`py-3 text-center border rounded-lg font-medium transition-all ${
-                    selectedSize === size 
-                      ? 'border-black bg-black text-white dark:border-white dark:bg-white dark:text-black shadow-md scale-105' 
+                  className={`py-3 text-center border rounded-lg font-medium transition-all ${selectedSize === size
+                      ? 'border-black bg-black text-white dark:border-white dark:bg-white dark:text-black shadow-md scale-105'
                       : 'border-gray-200 dark:border-gray-800 hover:border-black dark:hover:border-white'
-                  }`}
+                    }`}
                 >
                   {size}
                 </button>
@@ -147,16 +146,16 @@ const ProductDetails = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <Button 
-              variant="primary" 
-              size="lg" 
+            <Button
+              variant="primary"
+              size="lg"
               className="flex-grow text-lg"
               onClick={handleAddToCart}
             >
               Add to Cart
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="lg"
               className="px-6"
               onClick={() => toggleWishlist(product)}
