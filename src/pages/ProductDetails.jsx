@@ -15,10 +15,6 @@ const ProductDetails = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState(null);
   const [loading, setLoading] = useState(true);
-  
-  // Customizer state
-  const [hue, setHue] = useState(0);
-  const [isCustomizing, setIsCustomizing] = useState(false);
 
   const { addToCart, toggleWishlist, isInWishlist } = useCart();
 
@@ -29,8 +25,6 @@ const ProductDetails = () => {
       setProduct(data);
       setSelectedImage(0);
       setSelectedSize(null);
-      setHue(0);
-      setIsCustomizing(false);
       setLoading(false);
       
       // Get related
@@ -98,18 +92,9 @@ const ProductDetails = () => {
                 transition={{ duration: 0.3 }}
                 src={product.images[selectedImage]} 
                 alt={product.name}
-                style={isCustomizing ? { filter: `hue-rotate(${hue}deg) saturate(1.5)` } : {}}
                 className="w-full h-full object-cover origin-center transition-[filter] duration-200"
               />
             </AnimatePresence>
-
-            {/* Sneaker Customizer Toggle */}
-            <button 
-              onClick={() => setIsCustomizing(!isCustomizing)}
-              className="absolute top-4 left-4 bg-black/80 dark:bg-white/80 backdrop-blur text-white dark:text-black py-2 px-4 rounded-full text-sm font-bold flex items-center gap-2 hover:scale-105 transition-transform"
-            >
-              🎨 {isCustomizing ? 'Exit Customizer' : 'Customize Sneaker'}
-            </button>
             
             {product.isDrop && (
               <div className="absolute top-4 right-4 bg-red-500 text-white py-1 px-3 rounded text-xs font-bold uppercase tracking-wider animate-pulse">
@@ -137,32 +122,6 @@ const ProductDetails = () => {
           <p className="text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">
             {product.description}
           </p>
-
-          {/* Customizer Panel */}
-          {isCustomizing && (
-            <motion.div 
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              className="mb-8 p-5 bg-gray-50 dark:bg-[#1a1a1a] rounded-xl border border-gray-200 dark:border-gray-800"
-            >
-              <h3 className="font-bold mb-3 uppercase tracking-wider text-sm flex items-center gap-2">
-                🎨 SneakX Studio
-              </h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Drag the slider to preview different colorways for your kicks.</p>
-              <input 
-                type="range" 
-                min="0" 
-                max="360" 
-                value={hue} 
-                onChange={(e) => setHue(e.target.value)} 
-                className="w-full appearance-none h-2 bg-gradient-to-r from-red-500 via-green-500 to-blue-500 rounded-full outline-none slider-thumb-primary"
-              />
-              <div className="flex justify-between text-xs mt-2 text-gray-500 font-bold uppercase">
-                <span>Original</span>
-                <span>Custom Hue: {hue}°</span>
-              </div>
-            </motion.div>
-          )}
 
           {/* Size Selector */}
           <div className="mb-8">
